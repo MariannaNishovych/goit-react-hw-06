@@ -5,6 +5,8 @@ import { useId } from 'react';
 
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contactsSlice';
 
 const phoneRegexp = /^[0-9]{3}-[0-9]{2}-[0-9]{2}$/;
 
@@ -23,16 +25,20 @@ const initialValues = {
   number: '',
 };
 
-const ContactForm = ({ onAddContact }) => {
+const ContactForm = () => {
+
+  const dispatch = useDispatch();
+
   const nameId = useId();
   const numberId = useId();
 
   const handleSubmit = (values, actions) => {
-    onAddContact({
+    const onAddContact = {
       id: nanoid(),
       name: values.name,
       number: values.number,
-    });
+    };
+    dispatch(addContact(onAddContact));
 
     actions.resetForm();
   };
